@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="30dp">
+
+    <TextView
+        android:id="@+id/product"
+        android:text="@string/product"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginRight="20dp"
+        android:textStyle="bold|italic"
+        android:layout_marginEnd="20dp" />
+
+    <TextView
+        android:id="@+id/sku"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/product"
+        android:layout_marginBottom="10dp"
+        android:layout_alignLeft="@+id/product"
+        android:layout_alignStart="@+id/product" />
+
+    <TextView
+        android:id="@+id/number_title"
+        android:text="@string/transactions_number"
+        android:textStyle="italic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/product"
+        android:layout_toEndOf="@+id/product"
+        android:layout_alignTop="@+id/product"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp" />
+
+    <TextView
+        android:id="@+id/number_of_transactions"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/number_title"
+        android:layout_alignLeft="@+id/number_title"
+        android:layout_alignStart="@+id/number_title"
+        android:layout_marginBottom="10dp"/>
+
+</RelativeLayout>
