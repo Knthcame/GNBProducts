@@ -52,8 +52,8 @@ public class ProductDetailPresenter {
                     amount += transaction.getAmount();
                 }
                 totalAmount = amount;
-                totalAmountCurrency = getPreferedCurrency();
             }
+            totalAmountCurrency = getPreferedCurrency();
         }
         return mCurrencyConverter.convertToCurrency(totalAmount, totalAmountCurrency, getPreferedCurrency());
     }

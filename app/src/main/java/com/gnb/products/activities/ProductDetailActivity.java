@@ -104,7 +104,8 @@ public class ProductDetailActivity extends AppCompatActivity implements AdapterV
     }
 
     private void updateTransactionListCurrency() {
-        mTransactionAdapter.refreshTransactions(mPresenter.getCurrentTransactions());
+        mTransactionAdapter = new TransactionAdapter(this, mPresenter.getCurrentTransactions());
+        setTransactionList();
     }
 
     @Override
@@ -116,8 +117,10 @@ public class ProductDetailActivity extends AppCompatActivity implements AdapterV
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         int lastVisiblePosition = mTransactionList.getLastVisiblePosition();
         int listSize = mPresenter.getListSize();
-        if(scrollState == SCROLL_STATE_IDLE && lastVisiblePosition == listSize - 1)
+        if(scrollState == SCROLL_STATE_IDLE && lastVisiblePosition == listSize - 1) {
             mTransactionAdapter.loadMoreTransactions(mPresenter.getNextTransactions());
+            setLoadedTransactions();
+        }
     }
 
     @Override
