@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">GNB Products</string>
+    <string name="products_list">Lista de productos</string>
+    <string name="loading">Cargando…</string>
+    <string name="product">Producto</string>
+    <string name="transactions_number">Número de transaciones</string>
+    <string name="product_detail_title">Producto %1$s</string>
+    <string name="amount_title">Precio</string>
+    <string name="total_amount_title">Precio total: %1$.2f</string>
+    <string name="loaded_transactions">Mostrando %1$d/%2$d transacciones</string>
+</resources>

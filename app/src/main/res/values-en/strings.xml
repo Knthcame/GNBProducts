@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="products_list">Product list</string>
+    <string name="loading">Loading…</string>
+    <string name="product">Product</string>
+    <string name="transactions_number">Number of transactions</string>
+    <string name="product_detail_title">Product %1$s</string>
+    <string name="amount_title">Amount</string>
+    <string name="total_amount_title">Total amount: %1$.2f</string>
+    <string name="loaded_transactions">Showing %1$d/%2$d transactions</string>
+</resources>
