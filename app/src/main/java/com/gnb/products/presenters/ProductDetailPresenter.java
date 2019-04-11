@@ -22,6 +22,7 @@ public class ProductDetailPresenter {
     private SharedPreferences mPreferences;
     private double totalAmount;
     private int mListSize = 0;
+    private String totalAmountCurrency;
 
     public ProductDetailPresenter(Context context, int productId){
         mContext = context;
@@ -51,9 +52,10 @@ public class ProductDetailPresenter {
                     amount += transaction.getAmount();
                 }
                 totalAmount = amount;
+                totalAmountCurrency = getPreferedCurrency();
             }
         }
-        return totalAmount;
+        return mCurrencyConverter.convertToCurrency(totalAmount, totalAmountCurrency, getPreferedCurrency());
     }
 
     private List<TransactionModel> getProductTransactions(){
@@ -62,9 +64,14 @@ public class ProductDetailPresenter {
         return transactions;
     }
 
-    public List<TransactionModel> loadMoreTransactions(){
+    public List<TransactionModel> getNextTransactions(){
         List<TransactionModel> transactions = getProductTransactions().subList(mListSize, mListSize + LIST_INCREMENT);
         mListSize = mListSize + LIST_INCREMENT;
+        return mCurrencyConverter.convertToCurrency(transactions, getPreferedCurrency());
+    }
+
+    public List<TransactionModel> getCurrentTransactions(){
+        List<TransactionModel> transactions = getProductTransactions().subList(0, mListSize);
         return mCurrencyConverter.convertToCurrency(transactions, getPreferedCurrency());
     }
 
@@ -73,9 +80,7 @@ public class ProductDetailPresenter {
     }
 
     public void onSpinnerItemSelected(String toCurrency){
-        String fromCurrency = getPreferedCurrency();
         mPreferences.edit().putString(PreferencesConstants.PREFERED_CURRENCY, toCurrency).apply();
-        totalAmount = mCurrencyConverter.convertToCurrency(totalAmount, fromCurrency, toCurrency);
     }
 
     public int getProductTransactionsCount(){

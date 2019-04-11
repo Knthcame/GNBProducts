@@ -23,7 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ProductDetailActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, AbsListView.OnScrollListener {
 
-    private ProductDetailPresenter presenter;
+    private ProductDetailPresenter mPresenter;
 
     private TextView mTotalAmount;
 
@@ -44,13 +44,13 @@ public class ProductDetailActivity extends AppCompatActivity implements AdapterV
         if (productId == -1)
             finish();
         else {
-            presenter = new ProductDetailPresenter(this, productId);
+            mPresenter = new ProductDetailPresenter(this, productId);
             InitializeView();
         }
     }
 
     private void InitializeView() {
-        ProductModel product = presenter.getProductModel();
+        ProductModel product = mPresenter.getProductModel();
         setSupportActionBar(findViewById(R.id.my_toolbar));
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setTitle(getString(R.string.product_detail_title, product.getSku()));
@@ -62,7 +62,7 @@ public class ProductDetailActivity extends AppCompatActivity implements AdapterV
 
         setTotalAmount();
 
-        mTransactionAdapter = new TransactionAdapter(this, presenter.loadMoreTransactions());
+        mTransactionAdapter = new TransactionAdapter(this, mPresenter.getNextTransactions());
         mCurrencySpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Currencies.SupportedCurrencies));
         setDefaultCurrency();
 
@@ -72,12 +72,12 @@ public class ProductDetailActivity extends AppCompatActivity implements AdapterV
     }
 
     private void setDefaultCurrency() {
-        mCurrencySpinner.setSelection(Currencies.SupportedCurrencies.indexOf(presenter.getPreferedCurrency()));
+        mCurrencySpinner.setSelection(Currencies.SupportedCurrencies.indexOf(mPresenter.getPreferedCurrency()));
         mCurrencySpinner.setOnItemSelectedListener(this);
     }
 
     private void setLoadedTransactions() {
-        mLoadedTransactions.setText(getString(R.string.loaded_transactions, mTransactionList.getAdapter().getCount(), presenter.getProductTransactionsCount()));
+        mLoadedTransactions.setText(getString(R.string.loaded_transactions, mTransactionList.getAdapter().getCount(), mPresenter.getProductTransactionsCount()));
     }
 
     private void setTransactionList() {
@@ -86,7 +86,7 @@ public class ProductDetailActivity extends AppCompatActivity implements AdapterV
     }
 
     private void setTotalAmount() {
-        String totalAmount = getString(R.string.total_amount_title, presenter.getTotalAmount());
+        String totalAmount = getString(R.string.total_amount_title, mPresenter.getTotalAmount());
         mTotalAmount.setText(totalAmount);
     }
 
@@ -98,9 +98,13 @@ public class ProductDetailActivity extends AppCompatActivity implements AdapterV
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        presenter.onSpinnerItemSelected(Currencies.SupportedCurrencies.get(position));
+        mPresenter.onSpinnerItemSelected(Currencies.SupportedCurrencies.get(position));
         setTotalAmount();
-        setTransactionList();
+        updateTransactionListCurrency();
+    }
+
+    private void updateTransactionListCurrency() {
+        mTransactionAdapter.refreshTransactions(mPresenter.getCurrentTransactions());
     }
 
     @Override
@@ -111,13 +115,13 @@ public class ProductDetailActivity extends AppCompatActivity implements AdapterV
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         int lastVisiblePosition = mTransactionList.getLastVisiblePosition();
-        int listSize = presenter.getListSize();
+        int listSize = mPresenter.getListSize();
         if(scrollState == SCROLL_STATE_IDLE && lastVisiblePosition == listSize - 1)
-            mTransactionAdapter.loadMoreTransactions(presenter.loadMoreTransactions());
+            mTransactionAdapter.loadMoreTransactions(mPresenter.getNextTransactions());
     }
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
+        //Not necessary
     }
 }

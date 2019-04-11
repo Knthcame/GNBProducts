@@ -58,4 +58,9 @@ public class TransactionAdapter extends ArrayAdapter<TransactionModel> {
         mTransactions.addAll(transactionModels);
         notifyDataSetChanged();
     }
+
+    public void refreshTransactions(List<TransactionModel> transactionModels){
+        mTransactions = transactionModels;
+        notifyDataSetChanged();
+    }
 }
